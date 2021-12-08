@@ -65,7 +65,18 @@ namespace EnumerableExtensionsTask.Tests
                     },
                     new List<string>
                     {
-                        null, null, "two", "four", "six", "eight", "seven", "ten", "one", "three", "five", "nine",
+                        null,
+                        null,
+                        "two",
+                        "four",
+                        "six",
+                        "eight",
+                        "seven",
+                        "ten",
+                        "one",
+                        "three",
+                        "five",
+                        "nine",
                     },
                     new Func<string, int?>(item => item?.IndexOf('e', StringComparison.InvariantCulture)));
             }
@@ -130,7 +141,8 @@ namespace EnumerableExtensionsTask.Tests
             CollectionAssert.AreEqual(expected, source.OrderBy(key));
 
         [TestCaseSource(nameof(TestCasesDataForDoubles))]
-        public void OrderBy_Doubles(IEnumerable<double> source, IEnumerable<double> expected, Func<double, double> key) => 
+        public void OrderBy_Doubles(IEnumerable<double> source, IEnumerable<double> expected,
+            Func<double, double> key) =>
             CollectionAssert.AreEqual(expected, source.OrderBy(key));
 
         [TestCaseSource(nameof(TestCasesDataForIntegers))]
@@ -163,7 +175,11 @@ namespace EnumerableExtensionsTask.Tests
         {
             List<int> source = new List<int>
             {
-                1, 2, 3, 4, 5,
+                1,
+                2,
+                3,
+                4,
+                5,
             };
             List<int> expected = new List<int>
             {
@@ -178,7 +194,8 @@ namespace EnumerableExtensionsTask.Tests
         [Test]
         public void OrderBy_Source_Is_Null_Throw_ArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => ((IEnumerable<int>)null).OrderBy(x => x), $"Source can not be null.");
+            Assert.Throws<ArgumentNullException>(() => ((IEnumerable<int>)null).OrderBy(x => x),
+                $"Source can not be null.");
         }
     }
 }

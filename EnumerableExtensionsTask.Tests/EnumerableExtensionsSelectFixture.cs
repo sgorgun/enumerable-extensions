@@ -111,7 +111,8 @@ namespace EnumerableExtensionsTask.Tests
         }
 
         [TestCaseSource(nameof(TestCasesSource))]
-        public void Select_With_String_Sequence(IEnumerable<string> source, IEnumerable<string> expected, Func<string, string> selector) =>
+        public void Select_With_String_Sequence(IEnumerable<string> source, IEnumerable<string> expected,
+            Func<string, string> selector) =>
             CollectionAssert.AreEqual(expected, source.Select(selector));
 
         [Test]
@@ -131,7 +132,16 @@ namespace EnumerableExtensionsTask.Tests
             };
             List<string> expected = new List<string>
             {
-                "(1)", "(2)", "(3)", "(4)", "(5)", "(6)", "(7)", "(8)", "(9)", "(10)",
+                "(1)",
+                "(2)",
+                "(3)",
+                "(4)",
+                "(5)",
+                "(6)",
+                "(7)",
+                "(8)",
+                "(9)",
+                "(10)",
             };
 
             var actual = source.Select(item => $"({item})");
@@ -157,7 +167,15 @@ namespace EnumerableExtensionsTask.Tests
             };
             List<string> expected = new List<string>
             {
-                "(1)", "(2)", "(3)", "(4)", "(5)", "(6)", "(7)", "(8)", "(9)",
+                "(1)",
+                "(2)",
+                "(3)",
+                "(4)",
+                "(5)",
+                "(6)",
+                "(7)",
+                "(8)",
+                "(9)",
             };
 
             var actual = source.Select(item => $"({item})");
