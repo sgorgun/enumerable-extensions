@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -88,7 +88,7 @@ namespace EnumerableExtensionsTask
         /// <typeparam name="TSource">The type of the source.</typeparam>
         /// <param name="source">The source.</param>
         /// <returns>The number of elements in the input sequence.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when sequence or transformer is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when sequence is null.</exception>
         public static int Count<TSource>(this IEnumerable<TSource> source)
         {
             throw new NotImplementedException();
