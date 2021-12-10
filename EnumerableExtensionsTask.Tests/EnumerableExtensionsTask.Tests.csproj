@@ -3,7 +3,7 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <CodeAnalysisRuleSet>..\code-analysis.ruleset</CodeAnalysisRuleSet>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
-        <NoWarn>SA1116,1117</NoWarn>
+        <NoWarn>SA1116,SA1117</NoWarn>
     </PropertyGroup>
     <ItemGroup>
         <AdditionalFiles Include="..\code-analysis.ruleset" Link="Properties\code-analisys.ruleset" />
