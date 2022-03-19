@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-#pragma warning disable SA1600
-#pragma warning disable CA1707
-
 namespace EnumerableExtensionsTask.Tests
 {
     [TestFixture]
     [Category("Quantifiers")]
-    public class EnumerableExtensionsQuantifiersTestFixture
+    public class EnumerableExtensionsQuantifiersTests
     {
         [TestCase(new[] { 123, 321, 1235 }, 100, ExpectedResult = true)]
         [TestCase(new[] { 23, 23, 15 }, 100, ExpectedResult = false)]

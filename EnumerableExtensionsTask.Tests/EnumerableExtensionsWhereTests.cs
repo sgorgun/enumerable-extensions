@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using NUnit.Framework;
 
-#pragma warning disable SA1600
-#pragma warning disable CA1707
-
 namespace EnumerableExtensionsTask.Tests
 {
     [TestFixture]
     [Category("Where")]
-    public class EnumerableExtensionsWhereTestFixture
+    public class EnumerableExtensionsWhereTests
     {
         private static IEnumerable<TestCaseData> TestCasesSource
         {

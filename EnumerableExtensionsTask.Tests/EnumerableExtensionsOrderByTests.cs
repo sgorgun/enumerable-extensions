@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-#pragma warning disable SA1600
-#pragma warning disable CA1707
-
 namespace EnumerableExtensionsTask.Tests
 {
     [TestFixture]
-    [Category("Orderings")]
-    public class EnumerableExtensionsOrderByTestFixture
+    [Category("OrderBy")]
+    public class EnumerableExtensionsOrderByTests
     {
         private static IEnumerable<TestCaseData> TestCasesDataForStrings
         {
@@ -22,19 +19,19 @@ namespace EnumerableExtensionsTask.Tests
                         "two",
                         "three",
                         "four",
-                        null,
+                        null!,
                         "five",
                         "six",
                         "seven",
                         "eight",
-                        null,
+                        null!,
                         "nine",
                         "ten",
                     },
                     new List<string>
                     {
-                        null,
-                        null,
+                        null!,
+                        null!,
                         "one",
                         "two",
                         "six",
@@ -54,19 +51,19 @@ namespace EnumerableExtensionsTask.Tests
                         "two",
                         "three",
                         "four",
-                        null,
+                        null!,
                         "five",
                         "six",
                         "seven",
                         "eight",
-                        null,
+                        null!,
                         "nine",
                         "ten",
                     },
                     new List<string>
                     {
-                        null,
-                        null,
+                        null!,
+                        null!,
                         "two",
                         "four",
                         "six",
@@ -141,8 +138,7 @@ namespace EnumerableExtensionsTask.Tests
             CollectionAssert.AreEqual(expected, source.OrderBy(key));
 
         [TestCaseSource(nameof(TestCasesDataForDoubles))]
-        public void OrderBy_Doubles(IEnumerable<double> source, IEnumerable<double> expected,
-            Func<double, double> key) =>
+        public void OrderBy_Doubles(IEnumerable<double> source, IEnumerable<double> expected, Func<double, double> key) =>
             CollectionAssert.AreEqual(expected, source.OrderBy(key));
 
         [TestCaseSource(nameof(TestCasesDataForIntegers))]
@@ -194,8 +190,7 @@ namespace EnumerableExtensionsTask.Tests
         [Test]
         public void OrderBy_Source_Is_Null_Throw_ArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => ((IEnumerable<int>)null).OrderBy(x => x),
-                $"Source can not be null.");
+            Assert.Throws<ArgumentNullException>(() => ((IEnumerable<int>)null!).OrderBy(x => x), $"Source can not be null.");
         }
     }
 }

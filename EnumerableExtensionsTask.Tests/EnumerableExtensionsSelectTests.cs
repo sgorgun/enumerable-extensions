@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using NUnit.Framework;
 
-#pragma warning disable SA1600
-#pragma warning disable CA1707
-
 namespace EnumerableExtensionsTask.Tests
 {
     [Category("Select")]
-    public class EnumerableExtensionsSelectFixture
+    public class EnumerableExtensionsSelectTests
     {
         private static IEnumerable<TestCaseData> TestCasesSource
         {
@@ -48,10 +45,10 @@ namespace EnumerableExtensionsTask.Tests
                     {
                         "one",
                         "two",
-                        null,
+                        null!,
                         "three",
                         "four",
-                        null,
+                        null!,
                         "five",
                         "six",
                         "seven",
@@ -63,10 +60,10 @@ namespace EnumerableExtensionsTask.Tests
                     {
                         "ONE",
                         "TWO",
-                        null,
+                        null!,
                         "THREE",
                         "FOUR",
-                        null,
+                        null!,
                         "FIVE",
                         "SIX",
                         "SEVEN",
@@ -74,7 +71,7 @@ namespace EnumerableExtensionsTask.Tests
                         "NINE",
                         "TEN",
                     },
-                    new Func<string, string>(x => x?.ToUpperInvariant()));
+                    new Func<string, string?>(x => x?.ToUpperInvariant()));
                 yield return new TestCaseData(
                     new List<string>
                     {
@@ -111,8 +108,7 @@ namespace EnumerableExtensionsTask.Tests
         }
 
         [TestCaseSource(nameof(TestCasesSource))]
-        public void Select_With_String_Sequence(IEnumerable<string> source, IEnumerable<string> expected,
-            Func<string, string> selector) =>
+        public void Select_With_String_Sequence(IEnumerable<string> source, IEnumerable<string> expected, Func<string, string> selector) =>
             CollectionAssert.AreEqual(expected, source.Select(selector));
 
         [Test]
@@ -187,7 +183,7 @@ namespace EnumerableExtensionsTask.Tests
         public void Select_Source_Is_Null_Throw_ArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(
-                () => ((IEnumerable<int>)null).Select(x => x.ToString(CultureInfo.InvariantCulture)),
+                () => ((IEnumerable<int>)null!).Select(x => x.ToString(CultureInfo.InvariantCulture)),
                 $"Source can not be null.");
         }
     }

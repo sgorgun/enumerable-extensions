@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-#pragma warning disable SA1600
-#pragma warning disable CA1707
-
-namespace EnumerableExtensionsTask.Tests
+namespace EnumerableExtensionsTask.Tests.TestFixtures
 {
     [TestFixture(
         new[] { "Beg", null, "Life", "I", "i", "I", null, "To" },
@@ -46,10 +43,10 @@ namespace EnumerableExtensionsTask.Tests
         [Order(2)]
         public void Reverse_After_Add_New_Element_To_Source_Sequence_Actual_Result()
         {
-            this.expected.Insert(0, default);
+            this.expected.Insert(0, default!);
 
             var actual = EnumerableExtensions.Reverse(this.source);
-            this.source.Add(default);
+            this.source.Add(default!);
 
             CollectionAssert.AreEqual(this.expected, actual);
         }
@@ -70,7 +67,7 @@ namespace EnumerableExtensionsTask.Tests
         [Order(0)]
         public void Reverse_Source_Is_Null_Throw_ArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => ((IEnumerable<T>)null).Reverse(), $"Source can not be null.");
+            Assert.Throws<ArgumentNullException>(() => ((IEnumerable<T>)null!).Reverse(), $"Source can not be null.");
         }
     }
 }
