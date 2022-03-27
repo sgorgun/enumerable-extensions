@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace EnumerableExtensionsTask.Tests.InternalClasses
@@ -25,6 +25,6 @@ namespace EnumerableExtensionsTask.Tests.InternalClasses
         /// Greater than zero
         /// <paramref name="x" /> is greater than <paramref name="y" />.
         /// </returns>
-        public int Compare(int x, int y) => Math.Abs(x) > Math.Abs(y) ? 1 : -1;
+        public int Compare(int x, int y) => Math.Abs(x) - Math.Abs(y);
     }
 }
