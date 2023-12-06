@@ -1,3 +1,4 @@
+﻿#pragma warning disable S3267
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,7 +24,15 @@ namespace EnumerableExtensionsTask
         /// <exception cref="ArgumentNullException">Thrown when source sequence or predicate is null.</exception>
         public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            throw new NotImplementedException();
+            _ = source ?? throw new ArgumentNullException(nameof(source), "Can't be null.");
+            _ = predicate ?? throw new ArgumentNullException(nameof(predicate), "Can't be null.");
+            foreach (var item in source)
+            {
+                if (predicate(item))
+                {
+                    yield return item;
+                }
+            }
         }
 
         /// <summary>
@@ -37,7 +46,18 @@ namespace EnumerableExtensionsTask
         /// <exception cref="ArgumentNullException">Thrown when sequence or transformer is null.</exception>
         public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            throw new NotImplementedException();
+            _ = source ?? throw new ArgumentNullException(nameof(source), "Can't be null.");
+            _ = selector ?? throw new ArgumentNullException(nameof(selector), "Can't be null.");
+
+            return SelectSource();
+
+            IEnumerable<TResult> SelectSource()
+            {
+                foreach (var item in source)
+                {
+                    yield return selector(item);
+                }
+            }
         }
 
         /// <summary>
@@ -49,7 +69,10 @@ namespace EnumerableExtensionsTask
         /// <exception cref="ArgumentNullException">Thrown when sequence or transformer is null.</exception>
         public static TSource[] ToArray<TSource>(this IEnumerable<TSource> source)
         {
-            throw new NotImplementedException();
+            _ = source ?? throw new ArgumentNullException(nameof(source), "Can't be null.");
+            var (buffer, count) = BufferData.ToArray(source);
+            Array.Resize(ref buffer, count);
+            return buffer;
         }
 
         /// <summary>
@@ -67,7 +90,18 @@ namespace EnumerableExtensionsTask
         /// </exception>
         public static bool All<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
-            throw new NotImplementedException();
+            _ = source ?? throw new ArgumentNullException(nameof(source), "Can't be null.");
+            _ = predicate ?? throw new ArgumentNullException(nameof(predicate), "Can't be null.");
+
+            foreach (var item in source)
+            {
+                if (!predicate(item))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -79,7 +113,17 @@ namespace EnumerableExtensionsTask
         /// <exception cref="System.ArgumentOutOfRangeException">count - Count can not be less than zero.</exception>
         public static IEnumerable<int> Range(int start, int count)
         {
-            throw new NotImplementedException();
+            _ = count >= 0 ? count : throw new ArgumentOutOfRangeException(nameof(count), "Count can not be less than zero.");
+
+            return RangeCount();
+
+            IEnumerable<int> RangeCount()
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    yield return start + i;
+                }
+            }
         }
 
         /// <summary>
@@ -91,9 +135,17 @@ namespace EnumerableExtensionsTask
         /// <exception cref="ArgumentNullException">Thrown when sequence is null.</exception>
         public static int Count<TSource>(this IEnumerable<TSource> source)
         {
-            throw new NotImplementedException();
+            _ = source ?? throw new ArgumentNullException(nameof(source), "Can't be null.");
+
+            int count = 0;
+            foreach (var item in source)
+            {
+                count++;
+            }
+
+            return count;
         }
-        
+
         /// <summary>
         /// Returns the number of elements in a sequence.
         /// </summary>
@@ -108,7 +160,19 @@ namespace EnumerableExtensionsTask
         /// </exception>
         public static int Count<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            throw new NotImplementedException();
+            _ = source ?? throw new ArgumentNullException(nameof(source), "Can't be null.");
+            _ = predicate ?? throw new ArgumentNullException(nameof(predicate), "Can't be null.");
+
+            int count = 0;
+            foreach (var item in source)
+            {
+                if (predicate(item))
+                {
+                    count++;
+                }
+            }
+
+            return count;
         }
 
         /// <summary>
@@ -120,10 +184,8 @@ namespace EnumerableExtensionsTask
         /// <param name="key">A function to extract a key from an element.</param>
         /// <returns>An IOrderedEnumerable whose elements are sorted according to a key.</returns>
         public static IEnumerable<TSource> OrderBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> key)
-        {
-            throw new NotImplementedException();
-        }
-        
+            => source.OrderBy(key, Comparer<TKey>.Default);
+
         /// <summary>
         /// Sorts the elements of a sequence in ascending order according to a key.
         /// </summary>
@@ -140,7 +202,31 @@ namespace EnumerableExtensionsTask
         /// </exception>
         public static IEnumerable<TSource> OrderBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> key, IComparer<TKey> comparer)
         {
-            throw new NotImplementedException();
+            _ = source ?? throw new ArgumentNullException(nameof(source), "Can't be null.");
+            _ = key ?? throw new ArgumentNullException(nameof(key), "Can't be null.");
+            _ = comparer ?? Comparer<TKey>.Default;
+
+            return OrderBySource();
+
+            IEnumerable<TSource> OrderBySource()
+            {
+                var array = source.ToArray();
+                for (int i = 0; i < array.Length; i++)
+                {
+                    for (int j = 1; j < array.Length - i; j++)
+                    {
+                        if (comparer!.Compare(key(array[j - 1]), key(array[j])) > 0)
+                        {
+                            Swap(ref array[j - 1], ref array[j]);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < array.Length; i++)
+                {
+                    yield return array[i];
+                }
+            }
         }
 
         /// <summary>
@@ -152,9 +238,22 @@ namespace EnumerableExtensionsTask
         /// <exception cref="ArgumentNullException">Thrown when sequence is null.</exception>
         public static IEnumerable<TResult> OfType<TResult>(this IEnumerable source)
         {
-            throw new NotImplementedException();
+            _ = source ?? throw new ArgumentNullException(nameof(source), "Can't be null.");
+
+            return OfTypeSource();
+
+            IEnumerable<TResult> OfTypeSource()
+            {
+                foreach (var item in source)
+                {
+                    if (item is TResult result)
+                    {
+                        yield return result;
+                    }
+                }
+            }
         }
-        
+
         /// <summary>
         /// Filters the elements of source sequence based on a specified type.
         /// </summary>
@@ -164,7 +263,17 @@ namespace EnumerableExtensionsTask
         /// <exception cref="ArgumentNullException">Thrown when sequence is null.</exception>
         public static IEnumerable<TResult> Cast<TResult>(this IEnumerable source)
         {
-            throw new NotImplementedException();
+            _ = source ?? throw new ArgumentNullException(nameof(source), "Can't be null.");
+
+            return CastSource();
+
+            IEnumerable<TResult> CastSource()
+            {
+                foreach (var item in source)
+                {
+                    yield return (TResult)item;
+                }
+            }
         }
 
         /// <summary>
@@ -176,7 +285,19 @@ namespace EnumerableExtensionsTask
         /// <returns>Reversed source.</returns>
         public static IEnumerable<TSource> Reverse<TSource>(this IEnumerable<TSource> source)
         {
-            throw new NotImplementedException();
+            _ = source ?? throw new ArgumentNullException(nameof(source), "Can't be null.");
+
+            return ReversesOrder();
+
+            IEnumerable<TSource> ReversesOrder()
+            {
+                var array = source.ToArray();
+
+                for (int i = array.Length, j = 0; i > 0; i--, j++)
+                {
+                    yield return array[i - 1];
+                }
+            }
         }
 
         /// <summary>
@@ -185,6 +306,6 @@ namespace EnumerableExtensionsTask
         /// <typeparam name="T">The type of parameters.</typeparam>
         /// <param name="left">First object.</param>
         /// <param name="right">Second object.</param>
-        internal static void Swap<T>(ref T left, ref T right) => throw new NotImplementedException();
+        internal static void Swap<T>(ref T left, ref T right) => (left, right) = (right, left);
     }
 }
