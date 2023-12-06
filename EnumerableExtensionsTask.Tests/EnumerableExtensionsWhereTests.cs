@@ -35,13 +35,13 @@ namespace EnumerableExtensionsTask.Tests
         [TestCase(
             new[] { 12, 56, -907, 567, 234, -576, -43253, 1234, },
             new[] { 12, 56, 567, 234, 1234, })]
-        public void Where_Return_Only_Positive_Numbers(IEnumerable<int> source, IEnumerable<int> expected) 
+        public void Where_Return_Only_Positive_Numbers(IEnumerable<int> source, IEnumerable<int> expected)
             => Assert.AreEqual(expected, source.Where(x => x > 0));
 
         [TestCaseSource(nameof(TestCasesSource))]
         public void Where_With_String_Sequence(IEnumerable<string> source, IEnumerable<string> expected, Func<string, bool> predicate) =>
             CollectionAssert.AreEqual(expected, source.Where(predicate));
-        
+
         [Test]
         public void Where_After_Add_New_Element_To_Source_Sequence_Actual_Result()
         {
