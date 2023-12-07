@@ -71,8 +71,7 @@ namespace EnumerableExtensionsTask
         {
             _ = source ?? throw new ArgumentNullException(nameof(source), "Can't be null.");
             var (buffer, count) = BufferData.ToArray(source);
-            Array.Resize(ref buffer, count);
-            return buffer;
+            return buffer[0..count];
         }
 
         /// <summary>
@@ -210,21 +209,13 @@ namespace EnumerableExtensionsTask
 
             IEnumerable<TSource> OrderBySource()
             {
+                TKey[] keys = source.Select(e => key(e)).ToArray();
+                int[] indexes = Range(0, keys.Length).ToArray();
+                Array.Sort(keys, indexes, comparer);
                 var array = source.ToArray();
                 for (int i = 0; i < array.Length; i++)
                 {
-                    for (int j = 1; j < array.Length - i; j++)
-                    {
-                        if (comparer!.Compare(key(array[j - 1]), key(array[j])) > 0)
-                        {
-                            Swap(ref array[j - 1], ref array[j]);
-                        }
-                    }
-                }
-
-                for (int i = 0; i < array.Length; i++)
-                {
-                    yield return array[i];
+                    yield return array[indexes[i]];
                 }
             }
         }
